@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { productAPI } from '../services/api';
+import { useCart } from '../context/CartContext';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { addToCart, openCart, getCartItemQuantity } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [addedToCart, setAddedToCart] = useState(false);
 
   useEffect(() => {
     fetchProductDetail();
@@ -36,20 +39,32 @@ const ProductDetail = () => {
   };
 
   const handleQuantityChange = (value) => {
-    const newQuantity = Math.max(1, Math.min(10, value));
+    const cartQuantity = getCartItemQuantity(parseInt(id));
+    const maxAvailable = product ? product.stock - cartQuantity : 10;
+    const newQuantity = Math.max(1, Math.min(maxAvailable, value));
     setQuantity(newQuantity);
   };
 
   const handleAddToCart = () => {
-    // TODO: Implement add to cart functionality
-    console.log('Add to cart:', { productId: id, quantity });
-    alert(`Added ${quantity} item(s) to cart`);
+    if (!product) return;
+    
+    const cartQuantity = getCartItemQuantity(product.id);
+    const availableToAdd = product.stock - cartQuantity;
+    
+    if (quantity > availableToAdd) {
+      alert(`Only ${availableToAdd} more can be added to cart`);
+      return;
+    }
+    
+    addToCart(product, quantity);
+    setAddedToCart(true);
+    setTimeout(() => setAddedToCart(false), 2000);
   };
 
   const handleBuyNow = () => {
-    // TODO: Navigate to checkout
-    console.log('Buy now:', { productId: id, quantity });
-    navigate('/checkout', { state: { product, quantity } });
+    if (!product) return;
+    addToCart(product, quantity);
+    openCart();
   };
 
   const renderStars = (rating) => {
@@ -221,9 +236,9 @@ const ProductDetail = () => {
               <button
                 onClick={handleAddToCart}
                 disabled={isOutOfStock}
-                className="btn-add-to-cart"
+                className={`btn-add-to-cart ${addedToCart ? 'added' : ''}`}
               >
-                {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
+                {isOutOfStock ? 'Out of Stock' : addedToCart ? '✓ Added to Cart!' : 'Add to Cart'}
               </button>
               <button
                 onClick={handleBuyNow}

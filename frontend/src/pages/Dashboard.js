@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useAuth } from '../context/AuthContext';
 import { productAPI } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import ProductSkeleton from '../components/ProductSkeleton';
 import './Dashboard.css';
 
 const Dashboard = () => {
-  const { user } = useAuth();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -156,43 +154,35 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <div className="filters-section">
-        <div className="filters-row">
-          <div className="search-wrapper">
+      <div className="categories-bar">
+        <div className="categories-container">
+          <div className="categories-list">
+            <button
+              className={`category-item ${category === '' ? 'active' : ''}`}
+              onClick={() => handleCategoryChange({ target: { value: '' } })}
+            >
+              All Products
+            </button>
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                className={`category-item ${category === cat ? 'active' : ''}`}
+                onClick={() => handleCategoryChange({ target: { value: cat } })}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+          <div className="search-wrapper-compact">
             <input
               type="text"
               placeholder="Search products..."
               value={searchQuery}
               onChange={handleSearchChange}
-              className="search-input"
+              className="search-input-compact"
             />
-            <span className="search-icon">🔍</span>
+            <span className="search-icon-compact">🔍</span>
           </div>
-
-          <select
-            value={category}
-            onChange={handleCategoryChange}
-            className="filter-select"
-          >
-            <option value="">All Categories</option>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-
-          <select
-            value={sortBy}
-            onChange={handleSortChange}
-            className="filter-select"
-          >
-            <option value="">Sort By</option>
-            <option value="price_asc">Price: Low to High</option>
-            <option value="price_desc">Price: High to Low</option>
-            <option value="name">Name: A to Z</option>
-            <option value="rating">Rating: High to Low</option>
-          </select>
         </div>
       </div>
 
@@ -220,6 +210,17 @@ const Dashboard = () => {
           <>
             <div className="products-info">
               <p>Showing {products.length} of {totalProducts} products</p>
+              <select
+                value={sortBy}
+                onChange={handleSortChange}
+                className="sort-select"
+              >
+                <option value="">Sort By</option>
+                <option value="price_asc">Price: Low to High</option>
+                <option value="price_desc">Price: High to Low</option>
+                <option value="name">Name: A to Z</option>
+                <option value="rating">Rating: High to Low</option>
+              </select>
             </div>
             <div className="product-grid">
               {products.map((product) => (

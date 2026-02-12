@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 import './ProductCard.css';
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
+  const { addToCart, getCartItemQuantity } = useCart();
+  const [addedToCart, setAddedToCart] = useState(false);
 
   const handleViewDetails = () => {
     navigate(`/products/${product.id}`);
+  };
+
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    const cartQuantity = getCartItemQuantity(product.id);
+    if (cartQuantity >= product.stock) {
+      return; // Can't add more than available stock
+    }
+    addToCart(product, 1);
+    setAddedToCart(true);
+    setTimeout(() => setAddedToCart(false), 1500);
   };
 
   const renderStars = (rating) => {
@@ -51,12 +65,21 @@ const ProductCard = ({ product }) => {
           <span className="rating-value">({Number(product.rating || 0).toFixed(1)})</span>
         </div>
         <div className="product-price">${Number(product.price || 0).toFixed(2)}</div>
-        <button 
-          className="btn-view-details"
-          onClick={handleViewDetails}
-        >
-          View Details
-        </button>
+        <div className="product-card-actions">
+          <button 
+            className="btn-view-details"
+            onClick={handleViewDetails}
+          >
+            View Details
+          </button>
+          <button 
+            className={`btn-add-to-cart-small ${addedToCart ? 'added' : ''}`}
+            onClick={handleAddToCart}
+            disabled={isOutOfStock}
+          >
+            {addedToCart ? 'Added' : 'Add to Cart'}
+          </button>
+        </div>
       </div>
     </div>
   );

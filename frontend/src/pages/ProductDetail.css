@@ -2,22 +2,23 @@
 .product-detail-container {
   min-height: 100vh;
   background-color: #f5f5f5;
-  padding: 2rem;
+  padding: 1.5rem;
 }
 
 /* Back Button */
 .btn-back-link {
   display: inline-flex;
   align-items: center;
-  padding: 0.75rem 1.5rem;
+  padding: 0.5rem 1rem;
   background-color: white;
   color: #667eea;
   border: 2px solid #667eea;
-  border-radius: 8px;
+  border-radius: 6px;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   text-decoration: none;
 }
 
@@ -66,12 +67,12 @@
 .product-detail-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  gap: 2rem;
   background-color: white;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -104,8 +105,8 @@
   transform: translate(-50%, -50%);
   background-color: rgba(220, 53, 69, 0.9);
   color: white;
-  padding: 1rem 2rem;
-  font-size: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   border-radius: 8px;
 }
@@ -117,10 +118,10 @@
 }
 
 .thumbnail-gallery img {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   border: 2px solid transparent;
   transition: all 0.3s ease;
@@ -139,11 +140,11 @@
 .product-info-section {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .product-title {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #333;
   margin: 0;
@@ -163,7 +164,7 @@
 }
 
 .rating-stars .star {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   color: #ddd;
 }
 
@@ -172,7 +173,7 @@
 }
 
 .rating-text {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #666;
 }
 
@@ -184,13 +185,13 @@
 }
 
 .price {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #667eea;
 }
 
 .original-price {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: #999;
   text-decoration: line-through;
 }
@@ -207,7 +208,7 @@
 /* Stock Info */
 .stock-info {
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
 }
 
 .stock-status.out {
@@ -226,15 +227,15 @@
 .product-description,
 .product-specifications,
 .product-category {
-  padding: 1rem;
+  padding: 0.75rem;
   background-color: #f9f9f9;
   border-radius: 8px;
 }
 
 .product-description h3,
 .product-specifications h3 {
-  margin: 0 0 0.75rem 0;
-  font-size: 1.2rem;
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
   color: #333;
 }
 
@@ -242,6 +243,7 @@
   margin: 0;
   line-height: 1.6;
   color: #666;
+  font-size: 0.9rem;
 }
 
 .product-specifications ul {
@@ -251,9 +253,10 @@
 }
 
 .product-specifications li {
-  padding: 0.5rem 0;
+  padding: 0.4rem 0;
   border-bottom: 1px solid #e0e0e0;
   color: #666;
+  font-size: 0.9rem;
 }
 
 .product-specifications li:last-child {
@@ -264,8 +267,8 @@
 .product-actions {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 1rem;
+  gap: 1rem;
+  margin-top: 0.5rem;
 }
 
 /* Quantity Selector */
@@ -287,13 +290,13 @@
 }
 
 .quantity-btn {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border: 2px solid #667eea;
   background-color: white;
   color: #667eea;
-  border-radius: 8px;
-  font-size: 1.2rem;
+  border-radius: 6px;
+  font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -310,12 +313,12 @@
 }
 
 .quantity-input {
-  width: 80px;
-  height: 40px;
+  width: 70px;
+  height: 36px;
   text-align: center;
   border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
   font-weight: 600;
 }
 
@@ -333,10 +336,10 @@
 .btn-add-to-cart,
 .btn-buy-now {
   flex: 1;
-  padding: 1rem;
+  padding: 0.75rem;
   border: none;
   border-radius: 8px;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -350,6 +353,12 @@
 
 .btn-add-to-cart:hover:not(:disabled) {
   background-color: #667eea;
+  color: white;
+}
+
+.btn-add-to-cart.added {
+  background-color: #27ae60;
+  border-color: #27ae60;
   color: white;
 }
 
@@ -374,22 +383,22 @@
 
 /* Related Products */
 .related-products {
-  margin-top: 3rem;
-  max-width: 1400px;
+  margin-top: 2rem;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
 }
 
 .related-products h2 {
-  font-size: 1.8rem;
-  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
   color: #333;
 }
 
 .related-products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
 }
 
 .related-product-card {
@@ -408,14 +417,14 @@
 
 .related-product-card img {
   width: 100%;
-  height: 200px;
+  height: 160px;
   object-fit: cover;
 }
 
 .related-product-card h4 {
-  padding: 1rem;
+  padding: 0.75rem;
   margin: 0;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #333;
 }
 
@@ -431,15 +440,15 @@
 @media (max-width: 968px) {
   .product-detail-content {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   .product-title {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
 
   .price {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
 
   .action-buttons {
@@ -453,7 +462,7 @@
   }
 
   .product-detail-content {
-    padding: 1.5rem;
+    padding: 1rem;
   }
 
   .related-products-grid {
@@ -463,16 +472,16 @@
 
 @media (max-width: 480px) {
   .product-title {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 
   .price {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
 
   .btn-add-to-cart,
   .btn-buy-now {
-    font-size: 1rem;
-    padding: 0.875rem;
+    font-size: 0.9rem;
+    padding: 0.75rem;
   }
 }
