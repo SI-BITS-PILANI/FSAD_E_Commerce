@@ -46,4 +46,9 @@ export const productAPI = {
   getCategories: () => api.get('/products/categories/list')
 };
 
+export const orderAPI = {
+  getAll: () => api.get('/orders'),
+  getById: (id) => api.get(`/orders/${id}`)
+};
+
 export default api;

@@ -2,8 +2,10 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import ProductCard from './ProductCard';
+import { CartProvider } from '../context/CartContext';
 
 const mockProduct = {
+  id: 1,
   _id: '1',
   name: 'Test Product',
   price: 99.99,
@@ -14,9 +16,11 @@ const mockProduct = {
 
 const renderWithRouter = (component) => {
   return render(
-    <BrowserRouter>
-      {component}
-    </BrowserRouter>
+    <CartProvider>
+      <BrowserRouter>
+        {component}
+      </BrowserRouter>
+    </CartProvider>
   );
 };
 

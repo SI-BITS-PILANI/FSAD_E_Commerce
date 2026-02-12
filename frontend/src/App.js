@@ -5,11 +5,13 @@ import { CartProvider } from './context/CartContext';
 import CartModal from './components/CartModal';
 
 import PrivateRoute from './components/PrivateRoute';
+import AppHeader from './components/AppHeader';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import ProductDetail from './pages/ProductDetail';
+import Orders from './pages/Orders';
 
 function App() {
   return (
@@ -17,6 +19,7 @@ function App() {
       <CartProvider>
         <Router>
           <CartModal />
+          <AppHeader />
           <Routes>
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/register" element={<Register />} />
@@ -34,6 +37,14 @@ function App() {
             element={
               <PrivateRoute>
                 <ProductDetail />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <PrivateRoute>
+                <Orders />
               </PrivateRoute>
             }
           />
