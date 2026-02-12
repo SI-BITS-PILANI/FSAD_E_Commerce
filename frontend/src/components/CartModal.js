@@ -77,7 +77,7 @@ const CartModal = () => {
                       />
                     </div>
                     <div className="cart-item-details">
-                      <h4 className="cart-item-name">{item.name}</h4>
+                      <h4 className="cart-item-name" title={item.name}>{item.name}</h4>
                       <p className="cart-item-price">${Number(item.price).toFixed(2)}</p>
                       {item.quantity >= item.stock && (
                         <span className="cart-item-stock-warning">Max stock reached</span>

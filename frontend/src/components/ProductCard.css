@@ -100,17 +100,28 @@
 .star {
   color: #ddd;
   font-size: 1rem;
+  position: relative;
+  display: inline-block;
 }
 
 .star.filled {
   color: #ffc107;
 }
 
-.star.half {
-  background: linear-gradient(90deg, #ffc107 50%, #ddd 50%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.star.partial {
+  position: relative;
+  display: inline-block;
+  color: #ddd;
+}
+
+.star.partial::before {
+  content: '★';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #ffc107;
+  width: var(--fill-percentage, 50%);
+  overflow: hidden;
 }
 
 .rating-value {

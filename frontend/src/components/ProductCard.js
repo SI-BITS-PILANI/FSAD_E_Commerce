@@ -26,18 +26,29 @@ const ProductCard = ({ product }) => {
   const renderStars = (rating) => {
     const stars = [];
     const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 >= 0.5;
+    const decimal = rating - fullStars;
 
+    // Render full stars
     for (let i = 0; i < fullStars; i++) {
       stars.push(<span key={`full-${i}`} className="star filled">★</span>);
     }
-    if (hasHalfStar) {
-      stars.push(<span key="half" className="star half">★</span>);
+    
+    // Render partial star if there's a decimal
+    if (decimal > 0) {
+      const percentage = Math.round(decimal * 100);
+      stars.push(
+        <span key="partial" className="star partial" style={{ '--fill-percentage': `${percentage}%` }}>
+          ★
+        </span>
+      );
     }
-    const remainingStars = 5 - Math.ceil(rating);
+    
+    // Render empty stars
+    const remainingStars = 5 - fullStars - (decimal > 0 ? 1 : 0);
     for (let i = 0; i < remainingStars; i++) {
       stars.push(<span key={`empty-${i}`} className="star">☆</span>);
     }
+    
     return stars;
   };
 

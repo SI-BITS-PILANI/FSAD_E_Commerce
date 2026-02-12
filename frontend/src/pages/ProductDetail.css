@@ -164,12 +164,30 @@
 }
 
 .rating-stars .star {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   color: #ddd;
+  position: relative;
+  display: inline-block;
 }
 
 .rating-stars .star.filled {
   color: #ffc107;
+}
+
+.rating-stars .star.partial {
+  position: relative;
+  display: inline-block;
+  color: #ddd;
+}
+
+.rating-stars .star.partial::before {
+  content: '★';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #ffc107;
+  width: var(--fill-percentage, 50%);
+  overflow: hidden;
 }
 
 .rating-text {
