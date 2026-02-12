@@ -6,7 +6,7 @@ import ProductSkeleton from '../components/ProductSkeleton';
 import './Dashboard.css';
 
 const Dashboard = () => {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -156,18 +156,6 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <header className="dashboard-header">
-        <div className="header-content">
-          <h1 className="dashboard-title">Product Catalog</h1>
-          <div className="user-section">
-            <span className="user-name">Welcome, {user?.name || 'Guest'}</span>
-            <button onClick={() => logout(true)} className="btn-logout">
-              Logout
-            </button>
-          </div>
-        </div>
-      </header>
-
       <div className="filters-section">
         <div className="filters-row">
           <div className="search-wrapper">

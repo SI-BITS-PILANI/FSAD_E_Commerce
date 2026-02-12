@@ -2,7 +2,7 @@
 // Run this file with: node backend/seedData.js
 
 require('dotenv').config();
-const { sequelize, User, Product } = require('./models');
+const { sequelize, User, Product, Order, OrderItem } = require('./models');
 
 // Sample products data
 const sampleProducts = [
@@ -204,6 +204,17 @@ const regularUser = {
   }
 };
 
+const buildOrderItems = (items) => items.map(({ product, quantity }) => ({
+  productId: product.id,
+  quantity,
+  price: product.price
+}));
+
+const calculateTotalAmount = (items) => items.reduce(
+  (sum, { product, quantity }) => sum + (parseFloat(product.price) * quantity),
+  0
+);
+
 // Connect to PostgreSQL and seed data
 const seedDatabase = async () => {
   try {
@@ -225,6 +236,81 @@ const seedDatabase = async () => {
     // Create products
     const products = await Product.bulkCreate(sampleProducts);
     console.log(`✓ Created ${products.length} sample products`);
+
+    // Create sample orders for admin user
+    const adminOrders = [
+      {
+        items: [
+          { product: products[0], quantity: 1 },
+          { product: products[3], quantity: 2 }
+        ],
+        paymentMethod: 'UPI',
+        paymentStatus: 'Completed',
+        orderStatus: 'Delivered',
+        transactionId: 'TXN_SEED_1001'
+      },
+      {
+        items: [
+          { product: products[6], quantity: 1 },
+          { product: products[10], quantity: 1 },
+          { product: products[14], quantity: 2 }
+        ],
+        paymentMethod: 'Cash on Delivery',
+        paymentStatus: 'Pending',
+        orderStatus: 'Processing'
+      },
+      {
+        items: [
+          { product: products[1], quantity: 1 },
+          { product: products[5], quantity: 3 }
+        ],
+        paymentMethod: 'Credit Card',
+        paymentStatus: 'Completed',
+        orderStatus: 'Shipped',
+        transactionId: 'TXN_SEED_1002'
+      },
+      {
+        items: [
+          { product: products[7], quantity: 2 },
+          { product: products[12], quantity: 1 }
+        ],
+        paymentMethod: 'Net Banking',
+        paymentStatus: 'Completed',
+        orderStatus: 'Delivered',
+        transactionId: 'TXN_SEED_1003'
+      },
+      {
+        items: [
+          { product: products[2], quantity: 1 },
+          { product: products[9], quantity: 1 }
+        ],
+        paymentMethod: 'Debit Card',
+        paymentStatus: 'Pending',
+        orderStatus: 'Pending'
+      }
+    ];
+
+    for (const orderData of adminOrders) {
+      const totalAmount = calculateTotalAmount(orderData.items);
+      const order = await Order.create({
+        userId: admin.id,
+        totalAmount,
+        shippingAddress: adminUser.address,
+        paymentMethod: orderData.paymentMethod,
+        paymentStatus: orderData.paymentStatus,
+        orderStatus: orderData.orderStatus,
+        transactionId: orderData.transactionId || null
+      });
+
+      const orderItemsPayload = buildOrderItems(orderData.items).map((item) => ({
+        orderId: order.id,
+        ...item
+      }));
+
+      await OrderItem.bulkCreate(orderItemsPayload);
+    }
+
+    console.log(`✓ Created ${adminOrders.length} sample orders for admin user`);
 
     console.log('\n✅ Database seeding completed successfully!');
     console.log('\nYou can now login with:');
