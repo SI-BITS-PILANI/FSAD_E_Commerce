@@ -11,6 +11,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import ProductDetail from './pages/ProductDetail';
+import Checkout from './pages/Checkout';
+import OrderConfirmation from './pages/OrderConfirmation';
 import Orders from './pages/Orders';
 
 function App() {
@@ -37,6 +39,22 @@ function App() {
             element={
               <PrivateRoute>
                 <ProductDetail />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <PrivateRoute>
+                <Checkout />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/order-confirmation"
+            element={
+              <PrivateRoute>
+                <OrderConfirmation />
               </PrivateRoute>
             }
           />

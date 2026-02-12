@@ -13,6 +13,7 @@ router.post('/', auth, async (req, res) => {
     const { items, shippingAddress, paymentMethod, transactionId } = req.body;
     
     if (!items || items.length === 0) {
+      await t.rollback();
       return res.status(400).json({ 
         success: false, 
         message: 'Order must contain at least one item' 
@@ -94,6 +95,9 @@ router.post('/', auth, async (req, res) => {
       order: completeOrder
     });
   } catch (error) {
+    if (t && !t.finished) {
+      await t.rollback();
+    }
     console.error('Create order error:', error);
     res.status(500).json({ 
       success: false, 

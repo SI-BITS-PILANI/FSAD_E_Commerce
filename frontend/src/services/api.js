@@ -47,8 +47,17 @@ export const productAPI = {
 };
 
 export const orderAPI = {
+  createOrder: (orderData) => api.post('/orders', orderData),
+  getOrders: () => api.get('/orders'),
+  getOrderById: (id) => api.get(`/orders/${id}`),
   getAll: () => api.get('/orders'),
   getById: (id) => api.get(`/orders/${id}`)
+};
+
+export const paymentAPI = {
+  processPayment: (paymentData) => api.post('/payment/process', paymentData),
+  verifyPayment: (transactionId) => api.post('/payment/verify', { transactionId }),
+  getPaymentMethods: () => api.get('/payment/methods')
 };
 
 export default api;

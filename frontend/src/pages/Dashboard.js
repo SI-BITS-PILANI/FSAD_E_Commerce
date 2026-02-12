@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { productAPI } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import ProductSkeleton from '../components/ProductSkeleton';
@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [category, setCategory] = useState('');
   const [sortBy, setSortBy] = useState('');
   const [categories, setCategories] = useState([]);
+  const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
   
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,6 +24,9 @@ const Dashboard = () => {
 
   // Debounce search query
   const [debouncedSearch, setDebouncedSearch] = useState('');
+  
+  // Ref for dropdown
+  const sortDropdownRef = useRef(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -47,6 +51,23 @@ const Dashboard = () => {
     };
     fetchCategories();
   }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sortDropdownRef.current && !sortDropdownRef.current.contains(event.target)) {
+        setSortDropdownOpen(false);
+      }
+    };
+
+    if (sortDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [sortDropdownOpen]);
 
   // Fetch products
   const fetchProducts = useCallback(async () => {
@@ -95,9 +116,21 @@ const Dashboard = () => {
     setCurrentPage(1);
   };
 
-  const handleSortChange = (e) => {
-    setSortBy(e.target.value);
+  const handleCustomSortChange = (value) => {
+    setSortBy(value);
+    setSortDropdownOpen(false);
     setCurrentPage(1);
+  };
+
+  const getSortLabel = () => {
+    const sortOptions = {
+      '': 'Sort By',
+      'price_asc': 'Price: Low to High',
+      'price_desc': 'Price: High to Low',
+      'name': 'Name: A to Z',
+      'rating': 'Rating: High to Low'
+    };
+    return sortOptions[sortBy] || 'Sort By';
   };
 
   const handlePageChange = (page) => {
@@ -174,6 +207,10 @@ const Dashboard = () => {
             ))}
           </div>
           <div className="search-wrapper-compact">
+            <svg className="search-icon-compact" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+            </svg>
             <input
               type="text"
               placeholder="Search products..."
@@ -181,7 +218,6 @@ const Dashboard = () => {
               onChange={handleSearchChange}
               className="search-input-compact"
             />
-            <span className="search-icon-compact">🔍</span>
           </div>
         </div>
       </div>
@@ -210,17 +246,63 @@ const Dashboard = () => {
           <>
             <div className="products-info">
               <p>Showing {products.length} of {totalProducts} products</p>
-              <select
-                value={sortBy}
-                onChange={handleSortChange}
-                className="sort-select"
-              >
-                <option value="">Sort By</option>
-                <option value="price_asc">Price: Low to High</option>
-                <option value="price_desc">Price: High to Low</option>
-                <option value="name">Name: A to Z</option>
-                <option value="rating">Rating: High to Low</option>
-              </select>
+              <div className="custom-sort-dropdown" ref={sortDropdownRef}>
+                <button
+                  className="sort-select-button"
+                  onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
+                >
+                  <span>{getSortLabel()}</span>
+                  <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+                {sortDropdownOpen && (
+                  <div className="sort-dropdown-menu">
+                    <button
+                      className={`sort-option ${sortBy === '' ? 'active' : ''}`}
+                      onClick={() => handleCustomSortChange('')}
+                    >
+                      <span>Sort By</span>
+                    </button>
+                    <button
+                      className={`sort-option ${sortBy === 'price_asc' ? 'active' : ''}`}
+                      onClick={() => handleCustomSortChange('price_asc')}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M12 19V5M5 12l7-7 7 7"/>
+                      </svg>
+                      <span>Price: Low to High</span>
+                    </button>
+                    <button
+                      className={`sort-option ${sortBy === 'price_desc' ? 'active' : ''}`}
+                      onClick={() => handleCustomSortChange('price_desc')}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M12 5v14M5 12l7 7 7-7"/>
+                      </svg>
+                      <span>Price: High to Low</span>
+                    </button>
+                    <button
+                      className={`sort-option ${sortBy === 'name' ? 'active' : ''}`}
+                      onClick={() => handleCustomSortChange('name')}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M4 6h16M4 12h16M4 18h16"/>
+                      </svg>
+                      <span>Name: A to Z</span>
+                    </button>
+                    <button
+                      className={`sort-option ${sortBy === 'rating' ? 'active' : ''}`}
+                      onClick={() => handleCustomSortChange('rating')}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                      </svg>
+                      <span>Rating: High to Low</span>
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
             <div className="product-grid">
               {products.map((product) => (

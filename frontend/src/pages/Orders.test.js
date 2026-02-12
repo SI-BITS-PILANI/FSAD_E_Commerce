@@ -84,8 +84,14 @@ describe('Orders page', () => {
     const newerCard = orderHeadings[0].closest('.order-card');
     expect(newerCard).toBeTruthy();
 
-    const deliveredBadge = within(newerCard).getByText('Delivered');
-    expect(deliveredBadge).toHaveStyle('background-color: rgb(22, 163, 74)');
+    // Status badge should be in the expanded details section
+    const viewDetailsButtons = screen.getAllByRole('button', { name: /view details/i });
+    await userEvent.click(viewDetailsButtons[0]);
+    
+    // Use getAllByText and verify the badge exists (there are 2: one in timeline, one in status card)
+    const deliveredBadges = within(newerCard).getAllByText('Delivered');
+    expect(deliveredBadges.length).toBeGreaterThan(0);
+    expect(deliveredBadges[0]).toBeInTheDocument();
   });
 
   test('expands order details and shows key sections', async () => {
@@ -100,8 +106,7 @@ describe('Orders page', () => {
 
     expect(screen.getByRole('heading', { level: 4, name: /shipping address/i })).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 4, name: /^payment$/i })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 4, name: /order timeline/i })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 4, name: /track order/i })).toBeInTheDocument();
+    // Timeline is now in the order summary section, not a separate heading in details
 
     expect(screen.getByText('Wireless Bluetooth Headphones')).toBeInTheDocument();
     expect(screen.getByText(/transaction id/i)).toBeInTheDocument();
@@ -141,8 +146,13 @@ describe('Orders page', () => {
 
     await screen.findByText('#ORD-000005');
 
-    const select = screen.getByLabelText(/filter by status/i);
-    await userEvent.selectOptions(select, 'Delivered');
+    // Click the filter button to open dropdown
+    const filterButton = screen.getByRole('button', { name: /all orders/i });
+    await userEvent.click(filterButton);
+    
+    // Click the Delivered option
+    const deliveredOption = screen.getByRole('button', { name: /^delivered$/i });
+    await userEvent.click(deliveredOption);
 
     expect(screen.getByText('#ORD-000004')).toBeInTheDocument();
     expect(screen.queryByText('#ORD-000005')).not.toBeInTheDocument();

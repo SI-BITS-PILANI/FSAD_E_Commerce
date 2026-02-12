@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Routes, Route, useLocation } from 'react-router-dom';
 import AppHeader from './AppHeader';
 import { useAuth } from '../context/AuthContext';
+import { CartProvider } from '../context/CartContext';
 
 jest.mock('../context/AuthContext', () => ({
   useAuth: jest.fn()
@@ -17,13 +18,15 @@ const LocationDisplay = () => {
 const renderHeader = (initialEntries = ['/dashboard']) => {
   return render(
     <MemoryRouter initialEntries={initialEntries}>
-      <AppHeader />
-      <Routes>
-        <Route path="/dashboard" element={<div>Dashboard</div>} />
-        <Route path="/orders" element={<div>Orders Page</div>} />
-        <Route path="/login" element={<div>Login</div>} />
-      </Routes>
-      <LocationDisplay />
+      <CartProvider>
+        <AppHeader />
+        <Routes>
+          <Route path="/dashboard" element={<div>Dashboard</div>} />
+          <Route path="/orders" element={<div>Orders Page</div>} />
+          <Route path="/login" element={<div>Login</div>} />
+        </Routes>
+        <LocationDisplay />
+      </CartProvider>
     </MemoryRouter>
   );
 };
@@ -50,11 +53,11 @@ describe('AppHeader', () => {
 
     renderHeader(['/dashboard']);
 
-    expect(screen.getByText(/linux fsad ecommerce/i)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /orders/i })).toBeInTheDocument();
+    expect(screen.getByText(/linux marketplace/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /go to home/i })).toBeInTheDocument();
   });
 
-  test('opens user dropdown on hover and closes on outside click', async () => {
+  test('opens user dropdown on click and closes on outside click', async () => {
     useAuth.mockReturnValue({
       isAuthenticated: true,
       user: { name: 'Admin User' },
@@ -63,13 +66,16 @@ describe('AppHeader', () => {
 
     renderHeader(['/dashboard']);
 
-    const trigger = screen.getByRole('button', { name: /welcome, admin user/i });
-    const menuRoot = trigger.closest('.user-menu');
-    expect(menuRoot).toBeTruthy();
+    const trigger = screen.getByRole('button', { name: /admin user/i });
+    
+    // Menu should not be visible initially
+    expect(screen.queryByRole('menuitem', { name: /my orders/i })).not.toBeInTheDocument();
 
-    fireEvent.mouseEnter(menuRoot);
+    // Click to open menu
+    await userEvent.click(trigger);
     expect(await screen.findByRole('menuitem', { name: /my orders/i })).toBeInTheDocument();
 
+    // Click outside to close
     fireEvent.mouseDown(document.body);
     expect(screen.queryByRole('menuitem', { name: /my orders/i })).not.toBeInTheDocument();
   });
@@ -83,12 +89,12 @@ describe('AppHeader', () => {
 
     renderHeader(['/dashboard']);
 
-    const trigger = screen.getByRole('button', { name: /welcome, admin user/i });
-    const menuRoot = trigger.closest('.user-menu');
-    expect(menuRoot).toBeTruthy();
+    const trigger = screen.getByRole('button', { name: /admin user/i });
+    
+    // Click to open menu
+    await userEvent.click(trigger);
 
-    fireEvent.mouseEnter(menuRoot);
-
+    // Click orders link
     await userEvent.click(await screen.findByRole('menuitem', { name: /my orders/i }));
 
     expect(screen.getByText('Orders Page')).toBeInTheDocument();
@@ -105,7 +111,12 @@ describe('AppHeader', () => {
 
     renderHeader(['/dashboard']);
 
-    await userEvent.click(screen.getByRole('button', { name: /logout/i }));
+    // Click to open the user menu
+    const trigger = screen.getByRole('button', { name: /admin user/i });
+    await userEvent.click(trigger);
+
+    // Click logout
+    await userEvent.click(await screen.findByRole('menuitem', { name: /logout/i }));
 
     expect(logout).toHaveBeenCalledWith(false);
     expect(screen.getByText('Login')).toBeInTheDocument();

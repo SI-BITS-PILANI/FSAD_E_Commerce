@@ -77,8 +77,8 @@ const CartModal = () => {
                       />
                     </div>
                     <div className="cart-item-details">
-                      <h4 className="cart-item-name">{item.name}</h4>
-                      <p className="cart-item-price">${Number(item.price).toFixed(2)}</p>
+                      <h4 className="cart-item-name" title={item.name}>{item.name}</h4>
+                      <p className="cart-item-price">₹{Number(item.price).toFixed(2)}</p>
                       {item.quantity >= item.stock && (
                         <span className="cart-item-stock-warning">Max stock reached</span>
                       )}
@@ -102,7 +102,7 @@ const CartModal = () => {
                       </button>
                     </div>
                     <div className="cart-item-total">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      ₹{(item.price * item.quantity).toFixed(2)}
                     </div>
                     <button
                       className="cart-item-remove"
@@ -134,15 +134,15 @@ const CartModal = () => {
             <div className="cart-totals">
               <div className="cart-total-row">
                 <span>Subtotal:</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>₹{subtotal.toFixed(2)}</span>
               </div>
               <div className="cart-total-row">
                 <span>Tax (18% GST):</span>
-                <span>${tax.toFixed(2)}</span>
+                <span>₹{tax.toFixed(2)}</span>
               </div>
               <div className="cart-total-row cart-grand-total">
                 <span>Total:</span>
-                <span>${total.toFixed(2)}</span>
+                <span>₹{total.toFixed(2)}</span>
               </div>
             </div>
             <button className="btn-checkout" onClick={handleProceedToCheckout}>
