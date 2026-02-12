@@ -159,7 +159,6 @@
   color: #999;
   pointer-events: none;
 }
-
 /* Filters Section */
 .filters-section {
   background-color: white;
@@ -370,6 +369,14 @@
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
+  }
+
+  .filters-section {
+    padding: 1rem;
+  }
+
+  .filters-row {
+    flex-direction: column;
   }
 
   .dashboard-header {

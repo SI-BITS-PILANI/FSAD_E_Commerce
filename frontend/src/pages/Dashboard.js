@@ -1,15 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { useCart } from '../context/CartContext';
 import { productAPI } from '../services/api';
 import ProductCard from '../components/ProductCard';
 import ProductSkeleton from '../components/ProductSkeleton';
-import CartIcon from '../components/CartIcon';
 import './Dashboard.css';
 
 const Dashboard = () => {
-  const { user, logout } = useAuth();
-  const { openCart } = useCart();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -159,19 +154,6 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <header className="dashboard-header">
-        <div className="header-content">
-          <h1 className="dashboard-title">Product Catalog</h1>
-          <div className="user-section">
-            <span className="user-name">Welcome, {user?.name || 'Guest'}</span>
-            <CartIcon onClick={openCart} />
-            <button onClick={() => logout(true)} className="btn-logout">
-              Logout
-            </button>
-          </div>
-        </div>
-      </header>
-
       <div className="categories-bar">
         <div className="categories-container">
           <div className="categories-list">

@@ -49,7 +49,9 @@ export const productAPI = {
 export const orderAPI = {
   createOrder: (orderData) => api.post('/orders', orderData),
   getOrders: () => api.get('/orders'),
-  getOrderById: (id) => api.get(`/orders/${id}`)
+  getOrderById: (id) => api.get(`/orders/${id}`),
+  getAll: () => api.get('/orders'),
+  getById: (id) => api.get(`/orders/${id}`)
 };
 
 export const paymentAPI = {
