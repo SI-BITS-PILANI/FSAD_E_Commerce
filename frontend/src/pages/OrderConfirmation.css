@@ -41,7 +41,7 @@
   border-radius: 50%;
   display: block;
   stroke-width: 2;
-  stroke: #4caf50;
+  stroke: #1f8f5a;
   stroke-miterlimit: 10;
 }
 
@@ -50,7 +50,7 @@
   stroke-dashoffset: 166;
   stroke-width: 2;
   stroke-miterlimit: 10;
-  stroke: #4caf50;
+  stroke: #1f8f5a;
   fill: none;
   animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
 }
@@ -59,19 +59,9 @@
   transform-origin: 50% 50%;
   stroke-dasharray: 48;
   stroke-dashoffset: 48;
-  stroke: #4caf50;
+  stroke: #1f8f5a;
   stroke-width: 3;
   animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
-}
-
-.checkmark circle {
-  stroke-dasharray: 166;
-  stroke-dashoffset: 166;
-  stroke-width: 2;
-  stroke-miterlimit: 10;
-  stroke: #4caf50;
-  fill: none;
-  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
 }
 
 .checkmark path {
@@ -88,7 +78,7 @@
 .confirmation-title {
   font-size: 1.75rem;
   margin: 0 0 0.25rem 0;
-  color: #4caf50;
+  color: #1f8f5a;
   font-weight: 700;
 }
 
@@ -150,7 +140,7 @@
 }
 
 .total-amount {
-  color: #4caf50;
+  color: #1f8f5a;
   font-size: 1.3rem;
 }
 
@@ -212,7 +202,7 @@
 .order-status {
   display: inline-block;
   padding: 0.5rem 1rem;
-  background-color: #4caf50;
+  background-color: #1f8f5a;
   color: white;
   border-radius: 20px;
   font-size: 0.9rem;
@@ -305,7 +295,7 @@
 
 .order-item-total {
   font-weight: 700;
-  color: #4caf50;
+  color: #1f8f5a;
   font-size: 0.95rem;
   flex-shrink: 0;
   min-width: 70px;

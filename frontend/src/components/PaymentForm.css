@@ -302,7 +302,7 @@
   gap: 1.25rem;
   padding: 1.5rem;
   background: linear-gradient(135deg, #f0fdf4 0%, #f0f9ff 100%);
-  border: 2px solid #86efac;
+  border: 2px solid #34b679;
   border-radius: 12px;
   margin: 1rem 0;
 }
@@ -315,19 +315,19 @@
 .cod-content h4 {
   margin: 0 0 0.5rem 0;
   font-size: 1.25rem;
-  color: #166534;
+  color: #1f8f5a;
 }
 
 .cod-content p {
   margin: 0 0 0.75rem 0;
-  color: #15803d;
+  color: #16704b;
   font-size: 0.95rem;
 }
 
 .cod-content ul {
   margin: 0;
   padding-left: 1.25rem;
-  color: #16a34a;
+  color: #1f8f5a;
 }
 
 .cod-content li {
